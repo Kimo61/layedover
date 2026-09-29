@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@theme {
+  --color-layedover-navy: #171527;
+  --color-layedover-teal: #10A5B5;
+  --color-layedover-green: #5C8A3F;
+}
