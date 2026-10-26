@@ -8,6 +8,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      keyframes: {
+  fadeIn: {
+    '0%': { opacity: '0.4' },
+    '100%': { opacity: '1' },
+  }
+},
+animation: {
+  'fade-in': 'fadeIn 0.5s ease-out',
+},
       colors: {
         layedover: {
           navy: '#171527', 

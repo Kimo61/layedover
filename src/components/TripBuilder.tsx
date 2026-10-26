@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 
-const ACTIVITIES = [
+// Fallback activities for the homepage where a specific region isn't selected yet
+const DEFAULT_ACTIVITIES = [
   'ATV Jungle Trails',
   'Lazy River Tubing & Rafting',
   'Elephant Sanctuary',
@@ -11,13 +12,25 @@ const ACTIVITIES = [
   'Iconic Bali Swing & Cretya Jungle Pool',
   'Jukung Boat Snorkeling Tour',
   'Uluwatu Sunset & Kecak Dance',
+  'Kintamani 4x4 Volcano Sunrise'
 ];
 
-export default function TripBuilder() {
+interface TripBuilderProps {
+  regionActivities?: string[];
+}
+
+export default function TripBuilder({ regionActivities }: TripBuilderProps) {
   const [selected, setSelected] = useState<string[]>([]);
   const [name, setName] = useState('');
   const [contact, setContact] = useState('');
   const [submitted, setSubmitted] = useState(false);
+
+  // Use the specific region's activities if provided, otherwise use the defaults
+  const baseActivities = regionActivities || DEFAULT_ACTIVITIES;
+  
+  // Ensure "Your Route, Your Rules" is exactly at the end and never duplicated
+  const filteredActivities = baseActivities.filter(act => act !== 'Your Route, Your Rules');
+  const ACTIVITIES = [...filteredActivities, 'Your Route, Your Rules'];
 
   const toggle = (item: string) => {
     setSelected((prev) =>
@@ -46,18 +59,25 @@ export default function TripBuilder() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {ACTIVITIES.map((act) => {
                 const isChecked = selected.includes(act);
+                const isCustomRoute = act === 'Your Route, Your Rules';
+                
                 return (
                   <button
                     key={act}
                     type="button"
                     onClick={() => toggle(act)}
-                    className={`p-4 rounded-xl border text-left font-medium text-sm transition-all flex items-center justify-between ${
+                    className={`p-4 rounded-xl border text-left text-sm transition-all flex items-center justify-between ${
                       isChecked
                         ? 'bg-[#10A5B5]/10 border-[#10A5B5] text-[#171527] font-bold'
-                        : 'bg-gray-50 border-gray-200 text-gray-700 hover:border-gray-300'
+                        : 'bg-gray-50 border-gray-200 text-gray-700 font-medium hover:border-gray-300'
                     }`}
                   >
-                    <span>{act}</span>
+                    <span className="flex items-center gap-3">
+                      {act}
+                      {isCustomRoute && (
+                        <span className="text-[#D4AF37] text-2xl drop-shadow-sm leading-none" title="Signature Option">★</span>
+                      )}
+                    </span>
                     <span className="text-lg">{isChecked ? '✓' : '+'}</span>
                   </button>
                 );

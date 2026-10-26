@@ -19,7 +19,11 @@ export const metadata: Metadata = {
   description: "Tailored layovers, multi-day journeys, and reality-checked assistance in Bali.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html
       lang="en"
@@ -27,7 +31,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <Navbar />
-        {children}
+        
+        {/* Added pt-24 to push content below the fixed navbar, and flex-grow to push footer to the bottom */}
+        <div className="pt-24 flex-grow"> 
+          {children}
+        </div>
+        
         <Footer />
       </body>
     </html>
