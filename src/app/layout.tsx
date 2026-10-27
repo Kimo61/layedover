@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from '@/components/Navbar';
@@ -19,14 +19,6 @@ export const metadata: Metadata = {
   description: "Tailored layovers, multi-day journeys, and reality-checked assistance in Bali.",
 };
 
-// 👇 This forces mobile browsers to render the site at desktop width
-export const viewport: Viewport = {
-  width: 1200, 
-  initialScale: 0.3, 
-  maximumScale: 3, 
-  userScalable: true,
-};
-
 export default function RootLayout({
   children,
 }: {
@@ -37,17 +29,17 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#171527] overflow-x-auto">
-        {/* We wrap the entire site in a 1200px minimum width so it physically cannot stack for mobile */}
-        <div className="min-w-[1200px] w-full flex flex-col flex-grow">
-          <Navbar />
-          
-          <div className="pt-24 flex-grow"> 
-            {children}
-          </div>
-          
-          <Footer />
+      <body className="min-h-full flex flex-col bg-[#171527]">
+        
+        <Navbar />
+        
+        {/* We removed the rigid 1200px width so the grid can smoothly adapt to mobile screens */}
+        <div className="pt-24 flex-grow w-full flex flex-col"> 
+          {children}
         </div>
+        
+        <Footer />
+        
       </body>
     </html>
   );
