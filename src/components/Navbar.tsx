@@ -28,7 +28,7 @@ export default function Navbar() {
 
   return (
     <nav 
-      className={`w-full bg-white shadow-sm px-4 md:px-8 py-4 flex justify-between items-center fixed top-0 z-50 transition-transform duration-300 ease-in-out ${
+      className={`w-full min-w-[1200px] bg-white shadow-sm px-8 py-4 flex justify-between items-center fixed top-0 z-50 transition-transform duration-300 ease-in-out ${
         isVisible ? 'translate-y-0' : '-translate-y-full'
       }`}
     >
@@ -43,8 +43,8 @@ export default function Navbar() {
         />
       </Link>
 
-      {/* Navigation Links */}
-      <div className="hidden xl:flex gap-6 text-[#171527] font-semibold tracking-wide text-sm items-center">
+      {/* Navigation Links - Now locked to display desktop layout always */}
+      <div className="flex gap-6 text-[#171527] font-semibold tracking-wide text-sm items-center">
         
         {/* Multi-Days Trip */}
         <Link href="/#multi-day" className="group flex flex-col items-center justify-center hover:text-[#10A5B5] transition-colors">
@@ -60,7 +60,7 @@ export default function Navbar() {
               </svg>
             </div>
           </div>
-          <span className="text-xs lg:text-sm font-semibold">Multi-Days Trip</span>
+          <span className="text-sm font-semibold">Multi-Days Trip</span>
         </Link>
         
         {/* Cabin Crew Special */}
@@ -73,7 +73,7 @@ export default function Navbar() {
               </svg>
             </div>
           </div>
-          <span className="text-xs lg:text-sm font-semibold">Cabin Crew Special</span>
+          <span className="text-sm font-semibold">Cabin Crew Special</span>
         </Link>
         
         {/* 1-Day Excursions */}
@@ -90,7 +90,7 @@ export default function Navbar() {
               </svg>
             </div>
           </div>
-          <span className="text-xs lg:text-sm font-semibold">1-Day Excursions</span>
+          <span className="text-sm font-semibold">1-Day Excursions</span>
         </Link>
         
         {/* Stacked Layedover Reality Check */}

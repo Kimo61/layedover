@@ -542,7 +542,7 @@ export default function Home() {
 
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
           <div className="relative h-[450px] bg-[#1F1D36] rounded-3xl overflow-hidden shadow-2xl border border-white/10 group cursor-pointer transform transition-transform hover:-translate-y-2 duration-500">
-            <Image src="/therest.jpeg" alt="The Reset" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+            <Image src="/thereset.jpeg" alt="The Reset" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
             <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors duration-500 z-10"></div>
             <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
               <h3 className="text-4xl md:text-5xl font-extrabold text-white uppercase tracking-widest drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]">
