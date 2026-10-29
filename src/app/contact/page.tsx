@@ -5,19 +5,47 @@ import Link from 'next/link';
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setIsSubmitting(true);
+
+    // Prepare the data to send to Web3Forms
+    const payload = {
+      access_key: "06d08439-449c-4bf4-acd0-ae190e38d777",
+      name: formData.name,
+      email: formData.email,
+      message: formData.message,
+    };
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+      }
+    } catch (error) {
+      console.error("Error submitting form", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <main className="flex flex-col min-h-screen bg-[#171527] text-white py-16 px-8 md:px-24">
+    <main className="flex flex-col min-h-screen bg-[#171527] text-white py-16 px-8 md:px-24 pt-32">
       
       {/* Back Link */}
       <div className="max-w-4xl mx-auto w-full mb-8">
-        <Link href="/draft" className="text-gray-400 hover:text-[#10A5B5] text-sm font-bold flex items-center gap-2 transition-colors">
+        <Link href="/" className="text-gray-400 hover:text-[#10A5B5] text-sm font-bold flex items-center gap-2 transition-colors">
           <span>&larr;</span> Back to Home
         </Link>
       </div>
@@ -35,11 +63,16 @@ export default function ContactPage() {
 
         {!submitted ? (
           <form onSubmit={handleSubmit} className="space-y-6 mb-16">
+            
+            {/* Spam Protection Checkbox (Hidden) */}
+            <input type="checkbox" name="botcheck" className="hidden" style={{ display: 'none' }} />
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider mb-2 text-gray-300">Your Name</label>
                 <input 
                   type="text" 
+                  name="name"
                   required
                   placeholder="John Doe"
                   value={formData.name}
@@ -51,6 +84,7 @@ export default function ContactPage() {
                 <label className="block text-xs font-bold uppercase tracking-wider mb-2 text-gray-300">Email or WhatsApp</label>
                 <input 
                   type="text" 
+                  name="email"
                   required
                   placeholder="name@example.com / +1..."
                   value={formData.email}
@@ -63,6 +97,7 @@ export default function ContactPage() {
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider mb-2 text-gray-300">Your Message</label>
               <textarea 
+                name="message"
                 rows={5}
                 required
                 placeholder="Tell us about your flight schedule, preferred dates, or request..."
@@ -74,15 +109,20 @@ export default function ContactPage() {
 
             <button 
               type="submit"
-              className="w-full bg-[#10A5B5] hover:bg-[#0d8996] text-white font-extrabold uppercase tracking-wider py-4 rounded-xl transition-all shadow-lg"
+              disabled={isSubmitting}
+              className={`w-full font-extrabold uppercase tracking-wider py-4 rounded-xl transition-all shadow-lg ${
+                isSubmitting 
+                  ? 'bg-gray-600 text-gray-300 cursor-not-allowed' 
+                  : 'bg-[#10A5B5] hover:bg-[#0d8996] text-white'
+              }`}
             >
-              Send Message
+              {isSubmitting ? 'Sending...' : 'Send Message'}
             </button>
           </form>
         ) : (
           <div className="text-center py-12 bg-[#10A5B5]/10 rounded-2xl border border-[#10A5B5]/30 mb-16">
             <h3 className="text-2xl font-bold text-white mb-2">Message Received!</h3>
-            <p className="text-gray-300 text-sm">Thank you {formData.name}. We will get back to you shortly.</p>
+            <p className="text-gray-300 text-sm">Thank you {formData.name}. We have received your request and will get back to you shortly.</p>
           </div>
         )}
 
@@ -144,7 +184,6 @@ export default function ContactPage() {
         </div>
 
       </div>
-
     </main>
   );
 }

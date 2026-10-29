@@ -6,10 +6,138 @@ import Image from 'next/image';
 import TripBuilder from '@/components/TripBuilder';
 import RegionSlideshow from '@/components/RegionSlideshow';
 
+const WEB3FORMS_KEY = "06d08439-449c-4bf4-acd0-ae190e38d777";
+
+// --- Generic Booking Modal Component for Cabin Crew & Reality Check ---
+function GenericModal({ 
+  title, 
+  subtitle, 
+  triggerLabel, 
+  triggerPrice, 
+  triggerClass 
+}: { 
+  title: string; 
+  subtitle: string; 
+  triggerLabel: string; 
+  triggerPrice?: string; 
+  triggerClass: string; 
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [contactInput, setContactInput] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!contactInput.trim()) return;
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: `Request for: ${title}`,
+          email: contactInput,
+          message: `User requested booking/details for: ${title} (${subtitle})`,
+        }),
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+      }
+    } catch (error) {
+      console.error("Error submitting form", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)} className={triggerClass}>
+        <span>{triggerLabel}</span>
+        {triggerPrice && (
+          <span className="font-black bg-white/20 px-2.5 py-1 rounded text-sm">
+            {triggerPrice}
+          </span>
+        )}
+      </button>
+
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-[#1F1D36] border border-[#10A5B5]/40 p-5 md:p-8 rounded-2xl md:rounded-3xl max-w-[90%] md:max-w-md w-full shadow-2xl relative text-left">
+            <button 
+              onClick={() => { setIsOpen(false); setIsSubmitted(false); setContactInput(''); }}
+              className="absolute top-4 right-4 md:top-5 md:right-5 text-gray-400 hover:text-white text-lg md:text-xl font-bold"
+            >
+              &times;
+            </button>
+
+            {!isSubmitted ? (
+              <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
+                <div>
+                  <h3 className="text-xl md:text-2xl font-bold text-white mb-1.5 md:mb-2">{title}</h3>
+                  <p className="text-gray-300 text-xs md:text-sm leading-relaxed">
+                    {subtitle}
+                  </p>
+                </div>
+                <div>
+                  <label className="block text-[10px] md:text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5 md:mb-2">
+                    Your Email or WhatsApp Number
+                  </label>
+                  <input 
+                    type="text" 
+                    required
+                    placeholder="name@example.com / +1..."
+                    value={contactInput}
+                    onChange={(e) => setContactInput(e.target.value)}
+                    className="w-full bg-[#171527] border border-white/10 rounded-lg md:rounded-xl p-3 md:p-4 text-white text-xs md:text-sm focus:outline-none focus:border-[#10A5B5]"
+                  />
+                </div>
+                <button 
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-[#10A5B5] hover:bg-[#0d8996] text-white font-bold py-2.5 md:py-3.5 rounded-lg md:rounded-xl transition-colors shadow-md text-xs md:text-sm uppercase tracking-wider disabled:opacity-50 mt-2"
+                >
+                  {isSubmitting ? 'Sending Request...' : 'Submit Request'}
+                </button>
+              </form>
+            ) : (
+              <div className="text-center py-4 md:py-6">
+                <div className="w-12 h-12 md:w-14 md:h-14 bg-[#5C8A3F]/20 text-[#5C8A3F] rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4 text-xl md:text-2xl font-bold">
+                  ✓
+                </div>
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-2">Request Received!</h3>
+                <p className="text-gray-300 text-xs md:text-sm mb-5 md:mb-6">
+                  Thank you! We have logged your details for {title} and will reach out shortly.
+                </p>
+                <button 
+                  onClick={() => { setIsOpen(false); setIsSubmitted(false); setContactInput(''); }}
+                  className="w-full bg-white/10 hover:bg-white/20 text-white font-bold py-2.5 md:py-3 rounded-lg md:rounded-xl transition-colors text-xs md:text-sm"
+                >
+                  Close
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
 // --- Interactive Calendar Component for "Your Route, Your Rules" ---
 function MultiDayPicker() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedDates, setSelectedDates] = useState<string[]>([]);
+  const [contactInput, setContactInput] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   
   const [currentDate, setCurrentDate] = useState(() => {
     const d = new Date();
@@ -30,7 +158,7 @@ function MultiDayPicker() {
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
   const toggleDate = (day: number) => {
-    const dateStr = `${year}-${month}-${day}`;
+    const dateStr = `${year}-${month + 1}-${day}`;
     if (selectedDates.includes(dateStr)) {
       setSelectedDates(selectedDates.filter(d => d !== dateStr));
     } else {
@@ -52,6 +180,35 @@ function MultiDayPicker() {
     }
   };
 
+  const handleConfirm = async () => {
+    if (!contactInput.trim()) return alert("Please enter your Email or WhatsApp to confirm your dates.");
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: "Your Route Your Rules Date Reservation",
+          email: contactInput,
+          message: `User reserved the following custom dates: ${selectedDates.join(", ")}`,
+        }),
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+      }
+    } catch (error) {
+      console.error("Error submitting dates", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   if (!isOpen) {
     return (
       <button 
@@ -60,6 +217,21 @@ function MultiDayPicker() {
       >
         Reserve Your Place
       </button>
+    );
+  }
+
+  if (isSubmitted) {
+    return (
+      <div className="bg-[#5C8A3F]/20 text-[#5C8A3F] p-5 rounded-xl border border-[#5C8A3F]/50 text-center animate-in zoom-in">
+        <h3 className="font-bold mb-1 text-base text-white">Dates Reserved!</h3>
+        <p className="text-xs text-gray-300 mb-3">We have received your request for ({selectedDates.length}) days and will reach out shortly.</p>
+        <button 
+          onClick={() => { setIsOpen(false); setIsSubmitted(false); setSelectedDates([]); setContactInput(''); }}
+          className="text-xs font-bold text-white underline hover:text-[#10A5B5]"
+        >
+          Close
+        </button>
+      </div>
     );
   }
 
@@ -84,7 +256,7 @@ function MultiDayPicker() {
           const day = i + 1;
           const dateObj = new Date(year, month, day);
           const isPast = dateObj < tomorrow;
-          const dateStr = `${year}-${month}-${day}`;
+          const dateStr = `${year}-${month + 1}-${day}`;
           const isSelected = selectedDates.includes(dateStr);
 
           return (
@@ -106,6 +278,18 @@ function MultiDayPicker() {
         })}
       </div>
 
+      {selectedDates.length > 0 && (
+        <div className="mt-4">
+          <input 
+            type="text" 
+            placeholder="Your Email or WhatsApp Number..."
+            value={contactInput}
+            onChange={(e) => setContactInput(e.target.value)}
+            className="w-full bg-[#171527] border border-white/20 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-[#10A5B5]"
+          />
+        </div>
+      )}
+
       <div className="mt-5 flex gap-2">
         <button 
           onClick={() => setIsOpen(false)} 
@@ -114,10 +298,11 @@ function MultiDayPicker() {
           Cancel
         </button>
         <button 
-          disabled={selectedDates.length === 0} 
+          onClick={handleConfirm}
+          disabled={selectedDates.length === 0 || isSubmitting} 
           className="flex-1 py-2 text-xs font-bold bg-[#5C8A3F] text-white rounded-lg hover:bg-[#4a7032] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Confirm ({selectedDates.length})
+          {isSubmitting ? 'Sending...' : `Confirm (${selectedDates.length})`}
         </button>
       </div>
     </div>
@@ -128,12 +313,36 @@ function MultiDayPicker() {
 function SecretListPurchaseModal() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [contactInput, setContactInput] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (contactInput.trim()) {
-      setIsSubmitted(true);
+    if (!contactInput.trim()) return;
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: "Secret List Access Request ($19)",
+          email: contactInput,
+          message: "Client is requesting access to purchase the Secret List for $19.",
+        }),
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+      }
+    } catch (error) {
+      console.error("Error submitting secret list request", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -149,52 +358,53 @@ function SecretListPurchaseModal() {
 
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-[#1F1D36] border border-[#10A5B5]/40 p-8 rounded-3xl max-w-md w-full shadow-2xl relative text-left">
+          <div className="bg-[#1F1D36] border border-[#10A5B5]/40 p-5 md:p-8 rounded-2xl md:rounded-3xl max-w-[90%] md:max-w-md w-full shadow-2xl relative text-left">
             <button 
               onClick={() => { setIsModalOpen(false); setIsSubmitted(false); setContactInput(''); }}
-              className="absolute top-5 right-5 text-gray-400 hover:text-white text-xl font-bold"
+              className="absolute top-4 right-4 md:top-5 md:right-5 text-gray-400 hover:text-white text-lg md:text-xl font-bold"
             >
               &times;
             </button>
 
             {!isSubmitted ? (
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
                 <div>
-                  <h3 className="text-2xl font-bold text-white mb-2">Get Secret List Access</h3>
-                  <p className="text-gray-300 text-sm leading-relaxed">
+                  <h3 className="text-xl md:text-2xl font-bold text-white mb-1.5 md:mb-2">Get Secret List Access</h3>
+                  <p className="text-gray-300 text-xs md:text-sm leading-relaxed">
                     Enter your email or phone number. Our concierge team will reach out directly to complete your $19 purchase and send you the pins.
                   </p>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Email or WhatsApp Number</label>
+                  <label className="block text-[10px] md:text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5 md:mb-2">Email or WhatsApp Number</label>
                   <input 
                     type="text" 
                     required
                     placeholder="name@example.com / +1..."
                     value={contactInput}
                     onChange={(e) => setContactInput(e.target.value)}
-                    className="w-full bg-[#171527] border border-white/10 rounded-xl p-4 text-white text-sm focus:outline-none focus:border-[#10A5B5]"
+                    className="w-full bg-[#171527] border border-white/10 rounded-lg md:rounded-xl p-3 md:p-4 text-white text-xs md:text-sm focus:outline-none focus:border-[#10A5B5]"
                   />
                 </div>
                 <button 
                   type="submit"
-                  className="w-full bg-[#10A5B5] hover:bg-[#0d8996] text-white font-bold py-3.5 rounded-xl transition-colors shadow-md text-sm uppercase tracking-wider"
+                  disabled={isSubmitting}
+                  className="w-full bg-[#10A5B5] hover:bg-[#0d8996] text-white font-bold py-2.5 md:py-3.5 rounded-lg md:rounded-xl transition-colors shadow-md text-xs md:text-sm uppercase tracking-wider disabled:opacity-50 mt-2"
                 >
-                  Submit Request
+                  {isSubmitting ? 'Sending...' : 'Submit Request'}
                 </button>
               </form>
             ) : (
-              <div className="text-center py-6">
-                <div className="w-14 h-14 bg-[#5C8A3F]/20 text-[#5C8A3F] rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
+              <div className="text-center py-4 md:py-6">
+                <div className="w-12 h-12 md:w-14 md:h-14 bg-[#5C8A3F]/20 text-[#5C8A3F] rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4 text-xl md:text-2xl font-bold">
                   ✓
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-2">Request Received!</h3>
-                <p className="text-gray-300 text-sm mb-6">
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-2">Request Received!</h3>
+                <p className="text-gray-300 text-xs md:text-sm mb-5 md:mb-6">
                   Thank you! We have logged your contact details and will reach out shortly to fulfill your order.
                 </p>
                 <button 
                   onClick={() => { setIsModalOpen(false); setIsSubmitted(false); setContactInput(''); }}
-                  className="w-full bg-white/10 hover:bg-white/20 text-white font-bold py-3 rounded-xl transition-colors text-sm"
+                  className="w-full bg-white/10 hover:bg-white/20 text-white font-bold py-2.5 md:py-3 rounded-lg md:rounded-xl transition-colors text-xs md:text-sm"
                 >
                   Close
                 </button>
@@ -388,10 +598,14 @@ export default function Home() {
                 <li className="flex items-center gap-2"><span className="text-[#10A5B5]">✓</span> Canopy Zipline</li>
               </ul>
             </div>
-            <button className="w-full bg-[#10A5B5] hover:bg-[#0d8996] text-white font-bold py-3 rounded-xl transition-colors flex justify-between items-center px-5 shadow-lg">
-              <span>Book Layover</span>
-              <span className="font-black bg-white/20 px-2.5 py-1 rounded text-sm">$55 USD</span>
-            </button>
+
+            <GenericModal 
+              title="Ubud Fast-Track (Cabin Crew Layover)"
+              subtitle="Enter your details below to request details & booking for the Ubud Fast-Track package ($55 USD)."
+              triggerLabel="Book Layover"
+              triggerPrice="$55 USD"
+              triggerClass="w-full bg-[#10A5B5] hover:bg-[#0d8996] text-white font-bold py-3 rounded-xl transition-colors flex justify-between items-center px-5 shadow-lg"
+            />
           </div>
 
           {/* Card 2: Nusa Dua */}
@@ -409,10 +623,14 @@ export default function Home() {
                 <li className="flex items-center gap-2"><span className="text-[#5C8A3F]">✓</span> Premium Watersports</li>
               </ul>
             </div>
-            <button className="w-full bg-[#5C8A3F] hover:bg-[#4a7032] text-white font-bold py-3 rounded-xl transition-colors flex justify-between items-center px-5 shadow-lg">
-              <span>Book Layover</span>
-              <span className="font-black bg-white/20 px-2.5 py-1 rounded text-sm">$19 USD</span>
-            </button>
+
+            <GenericModal 
+              title="Nusa Dua Sun (Cabin Crew Layover)"
+              subtitle="Enter your details below to request details & booking for the Nusa Dua Sun package ($19 USD)."
+              triggerLabel="Book Layover"
+              triggerPrice="$19 USD"
+              triggerClass="w-full bg-[#5C8A3F] hover:bg-[#4a7032] text-white font-bold py-3 rounded-xl transition-colors flex justify-between items-center px-5 shadow-lg"
+            />
           </div>
 
           {/* Card 3: Uluwatu */}
@@ -431,10 +649,14 @@ export default function Home() {
                 <li className="flex items-start gap-2"><span className="text-yellow-500 mt-0.5">✓</span> <span>Kecak Fire Dance Show</span></li>
               </ul>
             </div>
-            <button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-3 rounded-xl transition-colors flex justify-between items-center px-5 shadow-lg">
-              <span>Book Layover</span>
-              <span className="font-black bg-white/20 px-2.5 py-1 rounded text-sm">$19 USD</span>
-            </button>
+
+            <GenericModal 
+              title="Uluwatu Highlights (Cabin Crew Layover)"
+              subtitle="Enter your details below to request details & booking for the Uluwatu Highlights package ($19 USD)."
+              triggerLabel="Book Layover"
+              triggerPrice="$19 USD"
+              triggerClass="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-3 rounded-xl transition-colors flex justify-between items-center px-5 shadow-lg"
+            />
           </div>
 
           {/* Card 4: Big CTA Block */}
@@ -606,9 +828,13 @@ export default function Home() {
             <p className="text-gray-300 text-lg mb-10 leading-relaxed font-medium">
               We provide live, on-field property inspections and real-time assistance for B2B partners and private clients so you never book blindly.
             </p>
-            <button className="bg-[#5C8A3F] hover:bg-[#4a7032] text-white font-bold text-lg px-10 py-5 rounded-xl transition-colors shadow-lg">
-              Request an Inspection
-            </button>
+
+            <GenericModal 
+              title="Property Reality Check Inspection"
+              subtitle="Submit your email or WhatsApp number below. Our ground team will reach out to organize your live villa/property inspection in Bali."
+              triggerLabel="Request an Inspection"
+              triggerClass="bg-[#5C8A3F] hover:bg-[#4a7032] text-white font-bold text-lg px-10 py-5 rounded-xl transition-colors shadow-lg inline-block"
+            />
           </div>
           <div className="w-full md:w-1/2 bg-gray-900 h-96 md:h-[500px] rounded-[2rem] overflow-hidden shadow-inner border border-white/10 relative">
              <Image src="/inspection.jpeg" alt="On the ground inspection" fill className="object-cover opacity-80" />
@@ -623,31 +849,37 @@ export default function Home() {
             Layedover Secret List
           </span>
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-            The Places Influencers Haven't Ruined Yet.
+            The Places That ChatGPT Won't Tell You About.
           </h2>
         </div>
 
         <div className="max-w-5xl mx-auto relative flex flex-col items-center">
           <div className="w-full bg-[#1F1D36] rounded-3xl p-8 md:p-12 mb-12 flex flex-col md:flex-row gap-12 items-center shadow-2xl border border-white/10 relative z-10">
-            <div className="w-full md:w-1/2 h-[350px] relative flex items-center justify-center perspective-1000">
-              <div className="absolute w-[65%] h-[280px] rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-500 ease-out z-10 hover:z-30 origin-bottom-left -rotate-6 -translate-x-8 hover:rotate-0 hover:translate-x-0 hover:scale-110 cursor-pointer border-4 border-[#171527]">
+            
+            {/* UPDATED MOBILE-RESPONSIVE IMAGES */}
+            <div className="w-full md:w-1/2 flex flex-col md:block md:h-[350px] relative items-center justify-center md:perspective-1000">
+              
+              <div className="w-full md:absolute md:w-[65%] h-[240px] md:h-[280px] mb-4 md:mb-0 rounded-2xl overflow-hidden shadow-xl transition-all duration-500 ease-out z-10 md:hover:z-30 md:origin-bottom-left md:-rotate-6 md:-translate-x-8 md:hover:rotate-0 md:hover:translate-x-0 md:hover:scale-110 cursor-pointer border-4 border-[#171527] relative">
                 <Image src="/secret1.jpeg" alt="Secret Location 1" fill className="object-cover" />
                 <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-lg text-white text-xs font-bold tracking-widest uppercase">
                   Location 01
                 </div>
               </div>
-              <div className="absolute w-[65%] h-[280px] rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-500 ease-out z-20 hover:z-30 origin-bottom-right rotate-6 translate-x-8 hover:rotate-0 hover:translate-x-0 hover:scale-110 cursor-pointer border-4 border-[#171527]">
+              
+              <div className="w-full md:absolute md:w-[65%] h-[240px] md:h-[280px] rounded-2xl overflow-hidden shadow-xl transition-all duration-500 ease-out z-20 md:hover:z-30 md:origin-bottom-right md:rotate-6 md:translate-x-8 md:hover:rotate-0 md:hover:translate-x-0 md:hover:scale-110 cursor-pointer border-4 border-[#171527] relative">
                 <Image src="/secret2.jpeg" alt="Secret Location 2" fill className="object-cover" />
                 <div className="absolute bottom-4 right-4 bg-[#10A5B5]/90 backdrop-blur-md px-3 py-1 rounded-lg text-white text-xs font-bold tracking-widest uppercase">
                   Location 02
                 </div>
               </div>
+
             </div>
+
             <div className="w-full md:w-1/2 text-left">
               <span className="text-xs font-bold text-[#5C8A3F] border border-[#5C8A3F]/30 uppercase tracking-widest bg-[#5C8A3F]/10 px-4 py-2 rounded-full mb-6 inline-block">Free Preview</span>
               <h3 className="text-3xl font-extrabold text-white mb-4 leading-tight">Eastern Cliff Sunrise & The Hidden Cove</h3>
               <p className="text-gray-400 text-base leading-relaxed mb-6">
-                While everyone crowds the main tourist ridges, these two unmarked locations offer untouched horizons. Hover over the photos to inspect the raw beauty of Bali's unmapped corners. No crowds, no entrance fees, just perfect isolation.
+                While everyone crowds the main tourist ridges, these two unmarked locations offer untouched horizons. Inspect the raw beauty of Bali's unmapped corners. No crowds, no entrance fees, just perfect isolation.
               </p>
             </div>
           </div>

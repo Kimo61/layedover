@@ -1,8 +1,115 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+
+const WEB3FORMS_KEY = "06d08439-449c-4bf4-acd0-ae190e38d777";
+
+// --- Responsive Generic Booking Modal ---
+function GenericModal({ 
+  title, 
+  subtitle, 
+  triggerLabel, 
+  triggerClass 
+}: { 
+  title: string; 
+  subtitle: string; 
+  triggerLabel: string; 
+  triggerClass: string; 
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [contactInput, setContactInput] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!contactInput.trim()) return;
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: `Crew Layover Request: ${title}`,
+          email: contactInput,
+          message: `Crew member requested booking details for: ${title} (${subtitle})`,
+        }),
+      });
+
+      if (response.ok) setIsSubmitted(true);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)} className={triggerClass}>
+        {triggerLabel} <span aria-hidden="true">&rarr;</span>
+      </button>
+
+      {isOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-[#1F1D36] border border-[#10A5B5]/40 p-5 md:p-8 rounded-2xl md:rounded-3xl max-w-[90%] md:max-w-md w-full shadow-2xl relative text-left cursor-default">
+            <button 
+              onClick={(e) => { e.stopPropagation(); setIsOpen(false); setIsSubmitted(false); setContactInput(''); }}
+              className="absolute top-4 right-4 md:top-5 md:right-5 text-gray-400 hover:text-white text-lg md:text-xl font-bold"
+            >
+              &times;
+            </button>
+
+            {!isSubmitted ? (
+              <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
+                <div>
+                  <h3 className="text-xl md:text-2xl font-bold text-white mb-1.5 md:mb-2">{title}</h3>
+                  <p className="text-gray-300 text-xs md:text-sm leading-relaxed">{subtitle}</p>
+                </div>
+                <div>
+                  <label className="block text-[10px] md:text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5 md:mb-2">
+                    Your Email or WhatsApp
+                  </label>
+                  <input 
+                    type="text" 
+                    required
+                    placeholder="name@example.com / +1..."
+                    value={contactInput}
+                    onChange={(e) => setContactInput(e.target.value)}
+                    className="w-full bg-[#171527] border border-white/10 rounded-lg md:rounded-xl p-3 md:p-4 text-white text-xs md:text-sm focus:outline-none focus:border-[#10A5B5]"
+                  />
+                </div>
+                <button 
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-[#10A5B5] hover:bg-[#0d8996] text-white font-bold py-2.5 md:py-3.5 rounded-lg md:rounded-xl transition-colors shadow-md text-xs md:text-sm uppercase tracking-wider disabled:opacity-50 mt-2"
+                >
+                  {isSubmitting ? 'Sending Request...' : 'Secure Leave'}
+                </button>
+              </form>
+            ) : (
+              <div className="text-center py-4 md:py-6">
+                <div className="w-12 h-12 md:w-14 md:h-14 bg-[#5C8A3F]/20 text-[#5C8A3F] rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4 text-xl md:text-2xl font-bold">✓</div>
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-2">Request Received!</h3>
+                <p className="text-gray-300 text-xs md:text-sm mb-5 md:mb-6">Thank you! We have logged your details for {title} and will reach out shortly to finalize.</p>
+                <button 
+                  onClick={(e) => { e.stopPropagation(); setIsOpen(false); setIsSubmitted(false); setContactInput(''); }}
+                  className="w-full bg-white/10 hover:bg-white/20 text-white font-bold py-2.5 md:py-3 rounded-lg md:rounded-xl transition-colors text-xs md:text-sm"
+                >
+                  Close
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
 
 const CREW_PACKAGES = [
   { 
@@ -51,7 +158,7 @@ export default function CabinCrewPackagesPage() {
 
       {/* 1. Header Section */}
       <div className="max-w-7xl mx-auto w-full mb-16 text-center relative z-10 flex flex-col items-center">
-        <Link href="/draft" className="text-gray-400 hover:text-[#10A5B5] text-sm font-bold inline-flex items-center gap-2 mb-8 transition-colors self-start md:self-center absolute left-0 top-0">
+        <Link href="/" className="text-gray-400 hover:text-[#10A5B5] text-sm font-bold inline-flex items-center gap-2 mb-8 transition-colors self-start md:self-center absolute left-0 top-0">
           <span>&larr;</span> Back to Home
         </Link>
         
@@ -76,10 +183,7 @@ export default function CabinCrewPackagesPage() {
       {/* 2. Boarding Pass Style Interactive Grid */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 relative z-10">
         {CREW_PACKAGES.map((pkg) => (
-          <div 
-            key={pkg.id} 
-            className="relative group hover:scale-[1.04] transition-transform duration-700 cursor-pointer"
-          >
+          <div key={pkg.id} className="relative group hover:scale-[1.04] transition-transform duration-700 cursor-pointer">
             {/* LED Ambient Backlight */}
             <div className="absolute -inset-1 rounded-[2.5rem] bg-[#10A5B5] opacity-25 group-hover:opacity-100 blur-2xl transition-all duration-700"></div>
             
@@ -94,12 +198,7 @@ export default function CabinCrewPackagesPage() {
 
               {/* Top Half: Image */}
               <div className="relative h-[45%] w-full overflow-hidden">
-                <Image 
-                  src={pkg.image} 
-                  fill 
-                  alt={pkg.title} 
-                  className="object-cover transition-transform duration-1000 group-hover:scale-110 opacity-90" 
-                />
+                <Image src={pkg.image} fill alt={pkg.title} className="object-cover transition-transform duration-1000 group-hover:scale-110 opacity-90" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1F1D36] via-[#1F1D36]/40 to-transparent"></div>
                 
                 {/* Arrival Tag overlay */}
@@ -157,18 +256,18 @@ export default function CabinCrewPackagesPage() {
                 </div>
               </div>
 
-              {/* Hidden Action Overlay - Appears on Hover */}
+              {/* Hidden Action Overlay with injected Modal */}
               <div className="absolute bottom-0 left-0 w-full h-[60%] p-6 pt-16 translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-0 group-hover:delay-[300ms] bg-gradient-to-t from-[#10A5B5] via-[#10A5B5]/95 to-transparent z-40 flex flex-col justify-end backdrop-blur-sm">
                 <div className="flex justify-between items-center mb-4 text-white px-2">
                   <span className="font-bold text-sm uppercase tracking-wider">Crew Rate</span>
                   <span className="font-black text-2xl">{pkg.price}</span>
                 </div>
-                <Link 
-                  href="/contact" 
-                  className="w-full bg-white text-[#171527] hover:bg-gray-100 text-center font-black uppercase tracking-widest py-4 rounded-xl shadow-2xl flex justify-center items-center gap-2 transition-colors transform hover:scale-[1.02]"
-                >
-                  Secure Leave &rarr;
-                </Link>
+                <GenericModal 
+                  title={pkg.title}
+                  subtitle={`Requesting crew dates and confirmation for: ${pkg.route} (${pkg.price}).`}
+                  triggerLabel="Secure Leave"
+                  triggerClass="w-full bg-white text-[#171527] hover:bg-gray-100 text-center font-black uppercase tracking-widest py-4 rounded-xl shadow-2xl flex justify-center items-center gap-2 transition-colors transform hover:scale-[1.02]"
+                />
               </div>
 
             </div>
@@ -186,7 +285,6 @@ export default function CabinCrewPackagesPage() {
             {/* ID Badge Icon */}
             <div className="relative shrink-0 w-14 h-14 md:w-16 md:h-16 bg-[#10A5B5]/15 border border-[#10A5B5] rounded-2xl flex items-center justify-center p-3">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-2xl bg-[#10A5B5] opacity-25"></span>
-              {/* Airline Badge SVG */}
               <svg className="w-full h-full text-[#10A5B5] relative z-10 drop-shadow-md" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
               </svg>
