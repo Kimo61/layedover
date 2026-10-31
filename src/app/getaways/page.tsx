@@ -138,37 +138,38 @@ export default function Getaways() {
         </div>
       </section>
 
-      {/* 4. BABYMOON (Reversed Layout) */}
+      {/* 4. AMALUNA SPECIAL (Reversed Layout) */}
       <section className="w-full relative border-t border-white/5 border-b">
         <div className="flex flex-col lg:flex-row-reverse w-full min-h-[80vh]">
           {/* Image Half */}
           <div className="w-full lg:w-1/2 relative h-[50vh] lg:h-auto">
-            <Image src="/babymoon.jpeg" alt="Babymoon" fill className="object-cover" />
+            <Image src="/amalunapack.jpeg" alt="AmaLuna Special" fill className="object-cover" />
             <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#1F1D36] hidden lg:block"></div>
             <div className="absolute inset-0 bg-gradient-to-t from-[#1F1D36] to-transparent lg:hidden"></div>
           </div>
           {/* Content Half */}
           <div className="w-full lg:w-1/2 flex items-center justify-center p-12 md:p-24 bg-[#1F1D36] relative">
             <div className="max-w-xl w-full">
-              <span className="text-[#10A5B5] font-black uppercase tracking-[0.3em] text-sm mb-4 block">04 / Serenity</span>
-              <h2 className="text-5xl md:text-6xl font-black text-white mb-6 tracking-tight">Babymoon</h2>
+              <span className="text-[#A28BC4] font-black uppercase tracking-[0.3em] text-sm mb-4 block">04 / Motherhood Collab</span>
+              <h2 className="text-5xl md:text-6xl font-black text-white mb-2 tracking-tight">AmaLuna Special</h2>
+              <p className="text-[#A28BC4] font-bold mb-6 tracking-widest uppercase text-sm">Starting from $3490</p>
               <p className="text-xl text-gray-300 mb-10 font-medium leading-relaxed italic border-l-2 border-[#D4AF37] pl-4">
-                A slow, beautiful escape before the little one arrives.
+                An exclusive collaboration for the woman behind the mother. Reconnect and recover with ultimate family serenity.
               </p>
               
               <ul className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 text-gray-400 mb-12">
-                <li className="flex items-center gap-3"><span className="text-[#D4AF37] text-xl">•</span> Private airport transfer</li>
-                <li className="flex items-center gap-3"><span className="text-[#D4AF37] text-xl">•</span> Pregnancy-friendly spa</li>
-                <li className="flex items-center gap-3"><span className="text-[#D4AF37] text-xl">•</span> Beautiful villa stay</li>
-                <li className="flex items-center gap-3"><span className="text-[#D4AF37] text-xl">•</span> Gentle private excursion</li>
-                <li className="flex items-center gap-3"><span className="text-[#D4AF37] text-xl">•</span> Romantic couple’s dinner</li>
-                <li className="flex items-center gap-3"><span className="text-[#D4AF37] text-xl">•</span> Sunset experience</li>
-                <li className="flex items-center gap-3"><span className="text-[#D4AF37] text-xl">•</span> Maternity photoshoot</li>
-                <li className="flex items-center gap-3"><span className="text-[#D4AF37] text-xl">•</span> Daily private driver</li>
+                <li className="flex items-center gap-3"><span className="text-[#D4AF37] text-xl">•</span> 4 Nights Sanur & 4 Nights Ubud</li>
+                <li className="flex items-center gap-3"><span className="text-[#D4AF37] text-xl">•</span> Postpartum Wellness & Massages</li>
+                <li className="flex items-center gap-3"><span className="text-[#D4AF37] text-xl">•</span> Parent & Baby Bonding Workshops</li>
+                <li className="flex items-center gap-3"><span className="text-[#D4AF37] text-xl">•</span> Private Beach Photoshoot</li>
+                <li className="flex items-center gap-3"><span className="text-[#D4AF37] text-xl">•</span> Professional Nanny & Care Sessions</li>
+                <li className="flex items-center gap-3"><span className="text-[#D4AF37] text-xl">•</span> Full Baby Essentials & Equipment</li>
+                <li className="flex items-center gap-3"><span className="text-[#D4AF37] text-xl">•</span> Private Transfers & Baby Car Seat</li>
+                <li className="flex items-center gap-3"><span className="text-[#D4AF37] text-xl">•</span> Curated Meals & Romantic Dinner</li>
               </ul>
 
-              <Link href="/contact" className="inline-flex items-center justify-center gap-3 bg-white text-[#1F1D36] hover:bg-[#10A5B5] hover:text-white font-bold px-10 py-5 rounded-xl transition-all w-full md:w-auto uppercase tracking-widest text-sm shadow-[0_10px_30px_rgba(16,165,181,0.2)]">
-                Inquire About Babymoon &rarr;
+              <Link href="/contact" className="inline-flex items-center justify-center gap-3 bg-white text-[#1F1D36] hover:bg-[#A28BC4] hover:text-white font-bold px-10 py-5 rounded-xl transition-all w-full md:w-auto uppercase tracking-widest text-sm shadow-[0_10px_30px_rgba(162,139,196,0.2)]">
+                Inquire About AmaLuna &rarr;
               </Link>
             </div>
           </div>

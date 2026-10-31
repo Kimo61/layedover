@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import TripBuilder from '@/components/TripBuilder';
 import RegionSlideshow from '@/components/RegionSlideshow';
 
 const WEB3FORMS_KEY = "06d08439-449c-4bf4-acd0-ae190e38d777";
@@ -15,19 +14,13 @@ function GenericModal({
   triggerLabel, 
   triggerPrice, 
   triggerClass 
-}: { 
-  title: string; 
-  subtitle: string; 
-  triggerLabel: string; 
-  triggerPrice?: string; 
-  triggerClass: string; 
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [contactInput, setContactInput] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!contactInput.trim()) return;
     setIsSubmitting(true);
@@ -134,7 +127,7 @@ function GenericModal({
 // --- Interactive Calendar Component for "Your Route, Your Rules" ---
 function MultiDayPicker() {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedDates, setSelectedDates] = useState<string[]>([]);
+  const [selectedDates, setSelectedDates] = useState([]);
   const [contactInput, setContactInput] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -157,7 +150,7 @@ function MultiDayPicker() {
   const firstDayOfMonth = new Date(year, month, 1).getDay();
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-  const toggleDate = (day: number) => {
+  const toggleDate = (day) => {
     const dateStr = `${year}-${month + 1}-${day}`;
     if (selectedDates.includes(dateStr)) {
       setSelectedDates(selectedDates.filter(d => d !== dateStr));
@@ -166,12 +159,12 @@ function MultiDayPicker() {
     }
   };
 
-  const handleNextMonth = (e: React.MouseEvent) => {
+  const handleNextMonth = (e) => {
     e.preventDefault();
     setCurrentDate(new Date(year, month + 1, 1));
   };
 
-  const handlePrevMonth = (e: React.MouseEvent) => {
+  const handlePrevMonth = (e) => {
     e.preventDefault();
     const prevMonthDate = new Date(year, month - 1, 1);
     if (prevMonthDate.getFullYear() > tomorrow.getFullYear() || 
@@ -316,7 +309,7 @@ function SecretListPurchaseModal() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!contactInput.trim()) return;
     setIsSubmitting(true);
@@ -476,15 +469,11 @@ export default function Home() {
             
             {/* Preview Package 1: Couples Reset */}
             <div className="relative group hover:scale-[1.04] transition-transform duration-700 cursor-pointer">
-              
               <div className="absolute -inset-1 rounded-[2.5rem] bg-[#10A5B5] opacity-25 group-hover:opacity-100 blur-2xl transition-all duration-700"></div>
-              
               <div className="relative bg-[#1F1D36] rounded-[2rem] overflow-hidden shadow-2xl border border-white/5 group-hover:border-[#10A5B5]/50 flex flex-col h-[540px] z-10 transition-colors duration-700">
-                
                 <div className="absolute top-0 right-0 bg-gradient-to-r from-red-600 to-red-500 text-white font-black px-5 py-2 rounded-bl-2xl text-xs z-30 shadow-[0_4px_15px_rgba(220,38,38,0.5)] uppercase tracking-widest">
                   20% OFF
                 </div>
-
                 <div className="relative h-[50%] w-full overflow-hidden">
                   <Image src="/couplereset.jpg" fill alt="Couples Reset" className="object-cover transition-transform duration-1000 group-hover:scale-110" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#1F1D36] via-[#1F1D36]/20 to-transparent"></div>
@@ -515,15 +504,11 @@ export default function Home() {
 
             {/* Preview Package 2: Chasing Sunsets */}
             <div className="relative group hover:scale-[1.04] transition-transform duration-700 cursor-pointer">
-              
               <div className="absolute -inset-1 rounded-[2.5rem] bg-[#10A5B5] opacity-25 group-hover:opacity-100 blur-2xl transition-all duration-700"></div>
-
               <div className="relative bg-[#1F1D36] rounded-[2rem] overflow-hidden shadow-2xl border border-white/5 group-hover:border-[#10A5B5]/50 flex flex-col h-[540px] z-10 transition-colors duration-700">
-                
                 <div className="absolute top-0 right-0 bg-gradient-to-r from-red-600 to-red-500 text-white font-black px-5 py-2 rounded-bl-2xl text-xs z-30 shadow-[0_4px_15px_rgba(220,38,38,0.5)] uppercase tracking-widest">
                   20% OFF
                 </div>
-
                 <div className="relative h-[50%] w-full overflow-hidden">
                   <Image src="/chasingsunset.jpg" fill alt="Chasing Sunsets" className="object-cover transition-transform duration-1000 group-hover:scale-110" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#1F1D36] via-[#1F1D36]/20 to-transparent"></div>
@@ -555,9 +540,20 @@ export default function Home() {
           </div>
         </div>
 
+        {/* REPLACED TRIP BUILDER COMPONENT WITH DEDICATED CTA BUTTON */}
         <div className="mt-24 border-t border-white/10 pt-16">
-           <TripBuilder />
+          <div className="bg-[#171527] border border-white/10 rounded-3xl p-12 text-center max-w-4xl mx-auto shadow-2xl relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#10A5B5]/10 to-transparent pointer-events-none transition-opacity duration-500 group-hover:opacity-75"></div>
+            <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-4 relative z-10">Build Your Custom Itinerary</h3>
+            <p className="text-gray-400 mb-8 max-w-2xl mx-auto relative z-10 text-lg">
+              Want to handpick your regions, pace, and specific activities? Use our interactive Trip Builder to design your perfect layover block by block.
+            </p>
+            <Link href="/personalize-experience" className="inline-flex items-center justify-center gap-3 bg-[#10A5B5] hover:bg-[#0d8996] text-white font-bold px-10 py-5 rounded-xl transition-all shadow-[0_10px_30px_rgba(16,165,181,0.2)] hover:scale-105 uppercase tracking-widest text-sm relative z-10">
+              Personalize your trip &rarr;
+            </Link>
+          </div>
         </div>
+
       </section>
 
       {/* 3. CABIN CREW */}
@@ -579,10 +575,16 @@ export default function Home() {
           </p>
         </div>
 
-        {/* UPDATED CABIN CREW CARDS */}
-        <div className="relative z-10 mt-16 flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        {/* MOBILE SCROLL HINT (Only visible on small screens) */}
+        <div className="relative z-10 flex md:hidden items-center justify-end gap-2 mt-8 text-[#10A5B5] font-bold text-[10px] uppercase tracking-widest animate-pulse">
+          <span>Swipe to explore</span>
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+          </svg>
+        </div>
+
+        <div className="relative z-10 mt-4 md:mt-16 flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           
-          {/* Card 1: Ubud */}
           <div className="min-w-[85vw] md:min-w-[360px] snap-center border border-white/10 rounded-2xl p-8 bg-black/40 backdrop-blur-md flex flex-col justify-between shadow-2xl hover:bg-black/60 transition-colors">
             <div>
               <span className="bg-[#10A5B5]/20 text-[#10A5B5] border border-[#10A5B5]/30 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider">
@@ -608,7 +610,6 @@ export default function Home() {
             />
           </div>
 
-          {/* Card 2: Nusa Dua */}
           <div className="min-w-[85vw] md:min-w-[360px] snap-center border border-white/10 rounded-2xl p-8 bg-black/40 backdrop-blur-md flex flex-col justify-between shadow-2xl hover:bg-black/60 transition-colors">
             <div>
               <span className="bg-[#5C8A3F]/20 text-[#5C8A3F] border border-[#5C8A3F]/30 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider">
@@ -633,7 +634,6 @@ export default function Home() {
             />
           </div>
 
-          {/* Card 3: Uluwatu */}
           <div className="min-w-[85vw] md:min-w-[360px] snap-center border border-white/10 rounded-2xl p-8 bg-black/40 backdrop-blur-md flex flex-col justify-between shadow-2xl hover:bg-black/60 transition-colors">
             <div>
               <span className="bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider">
@@ -659,7 +659,6 @@ export default function Home() {
             />
           </div>
 
-          {/* Card 4: Big CTA Block */}
           <Link href="/cabin-crew-packages" className="min-w-[85vw] md:min-w-[360px] snap-center border-2 border-[#10A5B5] rounded-2xl p-8 bg-[#10A5B5]/10 backdrop-blur-md flex flex-col items-center justify-center shadow-[0_0_30px_rgba(16,165,181,0.2)] hover:bg-[#10A5B5]/20 hover:scale-[1.02] transition-all text-center group cursor-pointer">
             <div className="w-16 h-16 bg-[#10A5B5]/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
               <svg className="w-8 h-8 text-[#10A5B5] group-hover:animate-bounce" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -678,7 +677,6 @@ export default function Home() {
           </Link>
 
         </div>
-
       </section>
 
       {/* 4. 1-DAY EXCURSIONS */}
@@ -856,7 +854,6 @@ export default function Home() {
         <div className="max-w-5xl mx-auto relative flex flex-col items-center">
           <div className="w-full bg-[#1F1D36] rounded-3xl p-8 md:p-12 mb-12 flex flex-col md:flex-row gap-12 items-center shadow-2xl border border-white/10 relative z-10">
             
-            {/* UPDATED MOBILE-RESPONSIVE IMAGES */}
             <div className="w-full md:w-1/2 flex flex-col md:block md:h-[350px] relative items-center justify-center md:perspective-1000">
               
               <div className="w-full md:absolute md:w-[65%] h-[240px] md:h-[280px] mb-4 md:mb-0 rounded-2xl overflow-hidden shadow-xl transition-all duration-500 ease-out z-10 md:hover:z-30 md:origin-bottom-left md:-rotate-6 md:-translate-x-8 md:hover:rotate-0 md:hover:translate-x-0 md:hover:scale-110 cursor-pointer border-4 border-[#171527] relative">
