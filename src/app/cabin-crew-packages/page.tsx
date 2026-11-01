@@ -236,7 +236,7 @@ const CREW_PACKAGES = [
 
     route: 'Canggu • Uluwatu • Ubud',
 
-    image: '/therest.jpeg',
+    image: '/ultimatecrew.jpeg',
 
     desc: 'No roster. No briefing. No passengers. VIP welcome, luxury beach clubs, jungle ATV, paragliding, and absolute freedom.',
 
@@ -256,7 +256,7 @@ const CREW_PACKAGES = [
 
     route: 'Seminyak • Ubud • Uluwatu',
 
-    image: '/uluwatu.jpg',
+    image: '/favella.jpg',
 
     desc: 'The perfect short-haul escape. Welcome massages, VIP beach clubs, jungle ATV, Melasti beach, and a guaranteed luxury reset.',
 
@@ -270,13 +270,13 @@ const CREW_PACKAGES = [
 
     id: 3,
 
-    title: 'Custom Annual Leave',
+    title: 'Jet lag',
 
     duration: 'Flexible Duration',
 
     route: 'Your Route, Your Rules',
 
-    image: '/ubud.jpg',
+    image: '/agung1.jpg',
 
     desc: 'Your layover, your way. Tell us exactly what you want to do and our concierge will build and execute your dream itinerary seamlessly.',
 

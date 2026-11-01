@@ -7,6 +7,15 @@ import RegionSlideshow from '@/components/RegionSlideshow';
 
 const WEB3FORMS_KEY = "06d08439-449c-4bf4-acd0-ae190e38d777";
 
+// --- Types for GenericModal ---
+interface GenericModalProps {
+  title: string;
+  subtitle: string;
+  triggerLabel: string;
+  triggerPrice?: string;
+  triggerClass: string;
+}
+
 // --- Generic Booking Modal Component for Cabin Crew & Reality Check ---
 function GenericModal({ 
   title, 
@@ -14,13 +23,13 @@ function GenericModal({
   triggerLabel, 
   triggerPrice, 
   triggerClass 
-}) {
+}: GenericModalProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [contactInput, setContactInput] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!contactInput.trim()) return;
     setIsSubmitting(true);
@@ -127,7 +136,7 @@ function GenericModal({
 // --- Interactive Calendar Component for "Your Route, Your Rules" ---
 function MultiDayPicker() {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedDates, setSelectedDates] = useState([]);
+  const [selectedDates, setSelectedDates] = useState<string[]>([]);
   const [contactInput, setContactInput] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -150,7 +159,7 @@ function MultiDayPicker() {
   const firstDayOfMonth = new Date(year, month, 1).getDay();
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-  const toggleDate = (day) => {
+  const toggleDate = (day: number) => {
     const dateStr = `${year}-${month + 1}-${day}`;
     if (selectedDates.includes(dateStr)) {
       setSelectedDates(selectedDates.filter(d => d !== dateStr));
@@ -159,12 +168,12 @@ function MultiDayPicker() {
     }
   };
 
-  const handleNextMonth = (e) => {
+  const handleNextMonth = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setCurrentDate(new Date(year, month + 1, 1));
   };
 
-  const handlePrevMonth = (e) => {
+  const handlePrevMonth = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const prevMonthDate = new Date(year, month - 1, 1);
     if (prevMonthDate.getFullYear() > tomorrow.getFullYear() || 
@@ -309,7 +318,7 @@ function SecretListPurchaseModal() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!contactInput.trim()) return;
     setIsSubmitting(true);
