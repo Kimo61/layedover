@@ -698,7 +698,7 @@ export default function Home() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="group relative bg-[#171527] rounded-2xl overflow-hidden shadow-lg border border-white/10 h-[500px] cursor-pointer">
+          <Link href="/regions/ubud" className="group relative bg-[#171527] rounded-2xl overflow-hidden shadow-lg border border-white/10 h-[500px] cursor-pointer block">
             <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{backgroundImage: "url('/ubud1.jpg')"}}></div>
             <div className="absolute inset-0 bg-gradient-to-t from-[#171527] via-[#171527]/40 to-transparent"></div>
             <div className="absolute bottom-0 left-0 w-full p-8">
@@ -709,9 +709,9 @@ export default function Home() {
                 View Itinerary <span aria-hidden="true">&rarr;</span>
               </span>
             </div>
-          </div>
+          </Link>
 
-          <div className="group relative bg-[#171527] rounded-2xl overflow-hidden shadow-lg border border-white/10 h-[500px] cursor-pointer">
+          <Link href="/regions/uluwatu" className="group relative bg-[#171527] rounded-2xl overflow-hidden shadow-lg border border-white/10 h-[500px] cursor-pointer block">
             <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{backgroundImage: "url('/uluwatu1day.jpg')"}}></div>
             <div className="absolute inset-0 bg-gradient-to-t from-[#171527] via-[#171527]/40 to-transparent"></div>
             <div className="absolute bottom-0 left-0 w-full p-8">
@@ -722,7 +722,7 @@ export default function Home() {
                 View Itinerary <span aria-hidden="true">&rarr;</span>
               </span>
             </div>
-          </div>
+          </Link>
 
           <div className="group relative bg-[#171527] rounded-2xl overflow-hidden shadow-lg border border-[#10A5B5]/40 h-[500px]">
             <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105 blur-[3px] opacity-60 pointer-events-none" style={{backgroundImage: "url('/sidemen.jpg')"}}></div>

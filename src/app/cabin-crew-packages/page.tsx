@@ -553,75 +553,44 @@ export default function CabinCrewPackagesPage() {
 
 
       {/* 3. HIGH-IMPACT CYAN FLOATING PRICE BANNER */}
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-lg pointer-events-none">
+        <div className="relative bg-[#171527]/90 backdrop-blur-2xl border-2 border-[#10A5B5]/80 shadow-[0_10px_50px_rgba(16,165,181,0.35)] rounded-2xl p-4 md:p-5 flex items-center justify-between gap-4 pointer-events-auto hover:border-[#10A5B5] transition-all duration-300">
+          
+          <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-[#10A5B5]/30 via-[#10A5B5]/50 to-[#10A5B5]/30 blur-lg opacity-60 pointer-events-none -z-10"></div>
 
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-3xl pointer-events-none">
-
-        <div className="relative bg-[#171527]/90 backdrop-blur-2xl border-2 border-[#10A5B5]/80 shadow-[0_10px_50px_rgba(16,165,181,0.35)] rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 pointer-events-auto hover:border-[#10A5B5] transition-all duration-300">
-
-         
-
-          <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-[#10A5B5]/30 via-[#10A5B5]/50 to-[#10A5B5]/30 blur-xl opacity-60 pointer-events-none -z-10"></div>
-
-
-
-          <div className="flex items-center gap-5">
-
-            {/* ID Badge Icon */}
-
-            <div className="relative shrink-0 w-14 h-14 md:w-16 md:h-16 bg-[#10A5B5]/15 border border-[#10A5B5] rounded-2xl flex items-center justify-center p-3">
-
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-2xl bg-[#10A5B5] opacity-25"></span>
-
-              <svg className="w-full h-full text-[#10A5B5] relative z-10 drop-shadow-md" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
-
-              </svg>
-
+          <div className="flex items-center gap-3">
+            {/* Custom Pin Icon */}
+            <div className="relative shrink-0 w-10 h-10 md:w-12 md:h-12 bg-[#10A5B5]/15 border border-[#10A5B5] rounded-xl flex items-center justify-center p-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-xl bg-[#10A5B5] opacity-25"></span>
+              <Image 
+                src="/pin.png" 
+                alt="Layedover Pin" 
+                width={24} 
+                height={24} 
+                className="relative z-10 drop-shadow-md object-contain" 
+              />
             </div>
 
-
-
-            <div className="text-center md:text-left">
-
-              <div className="inline-flex items-center gap-2 bg-[#D4AF37]/20 border border-[#D4AF37]/40 px-3 py-0.5 rounded-full mb-1">
-
-                <span className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse"></span>
-
-                <span className="text-[#D4AF37] font-black uppercase text-[10px] tracking-widest">Valid Airline ID Required</span>
-
+            <div className="text-left">
+              <div className="inline-flex items-center gap-1.5 bg-[#D4AF37]/20 border border-[#D4AF37]/40 px-2.5 py-0.5 rounded-full mb-0.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse"></span>
+                <span className="text-[#D4AF37] font-black uppercase text-[8px] md:text-[9px] tracking-widest">Valid Airline ID Required</span>
               </div>
-
-              <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-tight">
-
+              <h2 className="text-sm md:text-base font-black text-white uppercase tracking-tight">
                 Exclusive Crew Rates
-
               </h2>
-
             </div>
-
           </div>
 
-
-
-          <div className="flex flex-col items-center md:items-end text-center md:text-right border-t md:border-t-0 md:border-l border-white/10 pt-4 md:pt-0 md:pl-8 w-full md:w-auto">
-
-            <span className="text-gray-400 text-xs font-extrabold uppercase tracking-widest block mb-1">Starting From</span>
-
+          <div className="flex flex-col items-end text-right border-l border-white/10 pl-4">
+            <span className="text-gray-400 text-[9px] md:text-[10px] font-extrabold uppercase tracking-widest block mb-0.5">Starting From</span>
             <div className="flex items-baseline gap-1">
-
-              <span className="text-4xl md:text-5xl font-black text-[#10A5B5] drop-shadow-[0_4px_12px_rgba(16,165,181,0.4)]">$499</span>
-
-              <span className="text-gray-300 font-bold text-sm uppercase tracking-wider">/ crew</span>
-
+              <span className="text-2xl md:text-3xl font-black text-[#10A5B5] drop-shadow-[0_4px_12px_rgba(16,165,181,0.4)]">$499</span>
+              <span className="text-gray-300 font-bold text-[10px] md:text-xs uppercase tracking-wider">/ crew</span>
             </div>
-
           </div>
-
-
 
         </div>
-
       </div>
 
 

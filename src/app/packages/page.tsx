@@ -266,7 +266,7 @@ const READY_PACKAGES = [
 
     id: 3,
 
-    title: 'Move Your Body, Heal Your Body',
+    title: 'Move Your Body, Heal Your Soul',
 
     duration: '9 Days / 8 Nights',
 
@@ -393,6 +393,7 @@ const READY_PACKAGES = [
 
 
 export default function PackagesPage() {
+const [flippedId, setFlippedId] = useState<number | null>(null);
 
   return (
 
