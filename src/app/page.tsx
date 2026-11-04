@@ -477,7 +477,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             
             {/* Preview Package 1: Couples Reset */}
-            <div className="relative group hover:scale-[1.04] transition-transform duration-700 cursor-pointer">
+            <Link href="/packages" className="block relative group hover:scale-[1.04] transition-transform duration-700 cursor-pointer">
               <div className="absolute -inset-1 rounded-[2.5rem] bg-[#10A5B5] opacity-25 group-hover:opacity-100 blur-2xl transition-all duration-700"></div>
               <div className="relative bg-[#1F1D36] rounded-[2rem] overflow-hidden shadow-2xl border border-white/5 group-hover:border-[#10A5B5]/50 flex flex-col h-[540px] z-10 transition-colors duration-700">
                 <div className="absolute top-0 right-0 bg-gradient-to-r from-red-600 to-red-500 text-white font-black px-5 py-2 rounded-bl-2xl text-xs z-30 shadow-[0_4px_15px_rgba(220,38,38,0.5)] uppercase tracking-widest">
@@ -504,15 +504,15 @@ export default function Home() {
                 </div>
                 
                 <div className="absolute bottom-0 left-0 w-full p-6 pt-16 translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-0 group-hover:delay-[800ms] bg-gradient-to-t from-[#1F1D36] via-[#1F1D36] to-transparent z-20">
-                  <Link href="/packages" className="w-full bg-[#10A5B5] hover:bg-[#0d8996] text-white text-center font-bold py-4 rounded-xl shadow-[0_0_20px_rgba(16,165,181,0.4)] flex items-center justify-center gap-2 transition-colors transform hover:scale-[1.02]">
+                  <span className="w-full bg-[#10A5B5] group-hover:bg-[#0d8996] text-white text-center font-bold py-4 rounded-xl shadow-[0_0_20px_rgba(16,165,181,0.4)] flex items-center justify-center gap-2 transition-colors transform hover:scale-[1.02]">
                     Explore Package &rarr;
-                  </Link>
+                  </span>
                 </div>
               </div>
-            </div>
+            </Link>
 
             {/* Preview Package 2: Chasing Sunsets */}
-            <div className="relative group hover:scale-[1.04] transition-transform duration-700 cursor-pointer">
+            <Link href="/packages" className="block relative group hover:scale-[1.04] transition-transform duration-700 cursor-pointer">
               <div className="absolute -inset-1 rounded-[2.5rem] bg-[#10A5B5] opacity-25 group-hover:opacity-100 blur-2xl transition-all duration-700"></div>
               <div className="relative bg-[#1F1D36] rounded-[2rem] overflow-hidden shadow-2xl border border-white/5 group-hover:border-[#10A5B5]/50 flex flex-col h-[540px] z-10 transition-colors duration-700">
                 <div className="absolute top-0 right-0 bg-gradient-to-r from-red-600 to-red-500 text-white font-black px-5 py-2 rounded-bl-2xl text-xs z-30 shadow-[0_4px_15px_rgba(220,38,38,0.5)] uppercase tracking-widest">
@@ -539,12 +539,12 @@ export default function Home() {
                 </div>
                 
                 <div className="absolute bottom-0 left-0 w-full p-6 pt-16 translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-0 group-hover:delay-[800ms] bg-gradient-to-t from-[#1F1D36] via-[#1F1D36] to-transparent z-20">
-                  <Link href="/packages" className="w-full bg-[#10A5B5] hover:bg-[#0d8996] text-white text-center font-bold py-4 rounded-xl shadow-[0_0_20px_rgba(16,165,181,0.4)] flex items-center justify-center gap-2 transition-colors transform hover:scale-[1.02]">
+                  <span className="w-full bg-[#10A5B5] group-hover:bg-[#0d8996] text-white text-center font-bold py-4 rounded-xl shadow-[0_0_20px_rgba(16,165,181,0.4)] flex items-center justify-center gap-2 transition-colors transform hover:scale-[1.02]">
                     Explore Package &rarr;
-                  </Link>
+                  </span>
                 </div>
               </div>
-            </div>
+            </Link>
 
           </div>
         </div>
@@ -863,23 +863,27 @@ export default function Home() {
         <div className="max-w-5xl mx-auto relative flex flex-col items-center">
           <div className="w-full bg-[#1F1D36] rounded-3xl p-8 md:p-12 mb-12 flex flex-col md:flex-row gap-12 items-center shadow-2xl border border-white/10 relative z-10">
             
-            <div className="w-full md:w-1/2 flex flex-col md:block md:h-[350px] relative items-center justify-center md:perspective-1000">
-              
-              <div className="w-full md:absolute md:w-[65%] h-[240px] md:h-[280px] mb-4 md:mb-0 rounded-2xl overflow-hidden shadow-xl transition-all duration-500 ease-out z-10 md:hover:z-30 md:origin-bottom-left md:-rotate-6 md:-translate-x-8 md:hover:rotate-0 md:hover:translate-x-0 md:hover:scale-110 cursor-pointer border-4 border-[#171527] relative">
-                <Image src="/secret1.jpeg" alt="Secret Location 1" fill className="object-cover" />
-                <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-lg text-white text-xs font-bold tracking-widest uppercase">
-                  Location 01
-                </div>
-              </div>
-              
-              <div className="w-full md:absolute md:w-[65%] h-[240px] md:h-[280px] rounded-2xl overflow-hidden shadow-xl transition-all duration-500 ease-out z-20 md:hover:z-30 md:origin-bottom-right md:rotate-6 md:translate-x-8 md:hover:rotate-0 md:hover:translate-x-0 md:hover:scale-110 cursor-pointer border-4 border-[#171527] relative">
-                <Image src="/secret2.jpeg" alt="Secret Location 2" fill className="object-cover" />
-                <div className="absolute bottom-4 right-4 bg-[#10A5B5]/90 backdrop-blur-md px-3 py-1 rounded-lg text-white text-xs font-bold tracking-widest uppercase">
-                  Location 02
-                </div>
-              </div>
+          <div className="w-full md:w-1/2 h-[260px] md:h-[350px] relative flex items-center justify-center perspective-1000 mt-6 md:mt-0">
+  
+  {/* Secret Image 1 */}
+  <div className="absolute w-[75%] md:w-[65%] h-[200px] md:h-[280px] rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 ease-out z-10 hover:z-30 active:z-30 origin-bottom-left -rotate-6 -translate-x-4 md:-translate-x-8 hover:rotate-0 hover:translate-x-0 hover:scale-110 active:rotate-0 active:translate-x-0 active:scale-110 cursor-pointer border-4 border-[#171527] group">
+    <Image src="/secret1.jpeg" alt="Secret Location 1" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+    <div className="absolute inset-0 bg-black/30 group-hover:bg-transparent group-active:bg-transparent transition-colors duration-500"></div>
+    <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-lg text-white text-xs font-bold tracking-widest uppercase">
+      Location 01
+    </div>
+  </div>
+  
+  {/* Secret Image 2 */}
+  <div className="absolute w-[75%] md:w-[65%] h-[200px] md:h-[280px] rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 ease-out z-20 hover:z-30 active:z-30 origin-bottom-right rotate-6 translate-x-4 md:translate-x-8 hover:rotate-0 hover:translate-x-0 hover:scale-110 active:rotate-0 active:translate-x-0 active:scale-110 cursor-pointer border-4 border-[#171527] group">
+    <Image src="/secret2.jpeg" alt="Secret Location 2" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+    <div className="absolute inset-0 bg-black/30 group-hover:bg-transparent group-active:bg-transparent transition-colors duration-500"></div>
+    <div className="absolute bottom-4 right-4 bg-[#10A5B5]/90 backdrop-blur-md px-3 py-1 rounded-lg text-white text-xs font-bold tracking-widest uppercase">
+      Location 02
+    </div>
+  </div>
 
-            </div>
+</div>
 
             <div className="w-full md:w-1/2 text-left">
               <span className="text-xs font-bold text-[#5C8A3F] border border-[#5C8A3F]/30 uppercase tracking-widest bg-[#5C8A3F]/10 px-4 py-2 rounded-full mb-6 inline-block">Free Preview</span>

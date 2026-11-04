@@ -39,7 +39,7 @@ interface PackageItem {
   catering: string[];
   /** Leave out to show no price (the button still says "Inquire") */
   pricing?: {
-    headline: string; // e.g. "From $1,500 USD" or "Price on request"
+    headline: string; // e.g.  "Price on request"
     sub?: string; // e.g. "per couple"
     note?: string; // fine print shown at the bottom of the details
   };
@@ -255,7 +255,7 @@ const READY_PACKAGES: PackageItem[] = [
       '1 romantic seafood dinner in Jimbaran',
     ],
     pricing: {
-      headline: 'From $1,500 USD',
+      headline: 'Price on request ',
       sub: 'per couple',
       note: 'Based on double occupancy.',
     },
@@ -314,7 +314,7 @@ const READY_PACKAGES: PackageItem[] = [
       '1 romantic beachfront dinner',
     ],
     pricing: {
-      headline: 'From $1,500 USD',
+      headline: 'Price on request',
       sub: 'per couple',
       note: 'Based on double occupancy.',
     },
@@ -379,7 +379,7 @@ const READY_PACKAGES: PackageItem[] = [
       '1 romantic beachfront dinner',
     ],
     pricing: {
-      headline: 'From $1,500 USD',
+      headline: 'Price on request',
       sub: 'per couple',
       note: 'Based on double occupancy.',
     },
@@ -439,7 +439,7 @@ const READY_PACKAGES: PackageItem[] = [
       '1 family beachfront dinner',
     ],
     pricing: {
-      headline: 'From $1,500 USD',
+      headline: 'Price on request',
       sub: 'per family',
       note: "Final price based on number of adults, children's ages and accommodation requirements.",
     },
@@ -1038,42 +1038,41 @@ export default function PackagesPage() {
         })}
       </div>
 
-      {/* 3. HIGH-IMPACT CYAN FLOATING PRICE BANNER WITH LAYEDOVER PIN */}
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-3xl pointer-events-none">
-        <div className="relative bg-[#171527]/90 backdrop-blur-2xl border-2 border-[#10A5B5]/80 shadow-[0_10px_50px_rgba(16,165,181,0.35)] rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 pointer-events-auto hover:border-[#10A5B5] transition-all duration-300">
+           {/* 3. HIGH-IMPACT CYAN FLOATING PRICE BANNER WITH LAYEDOVER PIN */}
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-lg pointer-events-none">
+        <div className="relative bg-[#171527]/90 backdrop-blur-2xl border-2 border-[#10A5B5]/80 shadow-[0_10px_50px_rgba(16,165,181,0.35)] rounded-2xl p-4 md:p-5 flex items-center justify-between gap-4 pointer-events-auto hover:border-[#10A5B5] transition-all duration-300">
 
-          {/* Subtle Ambient Cyan Glow Effect */}
-          <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-[#10A5B5]/30 via-[#10A5B5]/50 to-[#10A5B5]/30 blur-xl opacity-60 pointer-events-none -z-10"></div>
+          <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-[#10A5B5]/30 via-[#10A5B5]/50 to-[#10A5B5]/30 blur-lg opacity-60 pointer-events-none -z-10"></div>
 
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-3">
             {/* Pin Badge */}
-            <div className="relative shrink-0 w-14 h-14 md:w-16 md:h-16 bg-[#10A5B5]/15 border border-[#10A5B5] rounded-2xl flex items-center justify-center p-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-2xl bg-[#10A5B5] opacity-25"></span>
+            <div className="relative shrink-0 w-10 h-10 md:w-12 md:h-12 bg-[#10A5B5]/15 border border-[#10A5B5] rounded-xl flex items-center justify-center p-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-xl bg-[#10A5B5] opacity-25"></span>
               <Image
                 src="/pin.png"
                 alt="Layedover Pin"
-                width={40}
-                height={40}
-                className="w-full h-full object-contain relative z-10 drop-shadow-md"
+                width={24}
+                height={24}
+                className="relative z-10 drop-shadow-md object-contain"
               />
             </div>
 
-            <div className="text-center md:text-left">
-              <div className="inline-flex items-center gap-2 bg-[#10A5B5]/20 border border-[#10A5B5]/40 px-3 py-0.5 rounded-full mb-1">
-                <span className="w-2 h-2 rounded-full bg-[#10A5B5] animate-pulse"></span>
-                <span className="text-[#10A5B5] font-black uppercase text-[10px] tracking-widest">Guaranteed Best Rates</span>
+            <div className="text-left">
+              <div className="inline-flex items-center gap-1.5 bg-[#10A5B5]/20 border border-[#10A5B5]/40 px-2.5 py-0.5 rounded-full mb-0.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#10A5B5] animate-pulse"></span>
+                <span className="text-[#10A5B5] font-black uppercase text-[8px] md:text-[9px] tracking-widest">Guaranteed Best Rates</span>
               </div>
-              <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-tight">
+              <h2 className="text-sm md:text-base font-black text-white uppercase tracking-tight">
                 All-Inclusive Escapes
               </h2>
             </div>
           </div>
 
-          <div className="flex flex-col items-center md:items-end text-center md:text-right border-t md:border-t-0 md:border-l border-white/10 pt-4 md:pt-0 md:pl-8 w-full md:w-auto">
-            <span className="text-gray-400 text-xs font-extrabold uppercase tracking-widest block mb-1">Starting From</span>
+          <div className="flex flex-col items-end text-right border-l border-white/10 pl-4">
+            <span className="text-gray-400 text-[9px] md:text-[10px] font-extrabold uppercase tracking-widest block mb-0.5">Starting From</span>
             <div className="flex items-baseline gap-1">
-              <span className="text-4xl md:text-5xl font-black text-[#10A5B5] drop-shadow-[0_4px_12px_rgba(16,165,181,0.4)]">$749</span>
-              <span className="text-gray-300 font-bold text-sm uppercase tracking-wider">/ person</span>
+              <span className="text-2xl md:text-3xl font-black text-[#10A5B5] drop-shadow-[0_4px_12px_rgba(16,165,181,0.4)]">$749</span>
+              <span className="text-gray-300 font-bold text-[10px] md:text-xs uppercase tracking-wider">/ person</span>
             </div>
           </div>
 
